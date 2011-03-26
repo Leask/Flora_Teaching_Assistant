@@ -39,9 +39,9 @@ Begin VB.Form Form2
    End
    Begin Project1.MorphDisplay MorphLCD2 
       Height          =   1755
-      Left            =   120
+      Left            =   495
       TabIndex        =   1
-      Top             =   120
+      Top             =   90
       Width           =   5685
       _ExtentX        =   10028
       _ExtentY        =   3096

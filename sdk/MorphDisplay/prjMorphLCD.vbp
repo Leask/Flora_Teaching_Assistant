@@ -1,12 +1,8 @@
 Type=Exe
-Reference=*\G{00020430-0000-0000-C000-000000000046}#2.0#0#C:\WINNT\system32\stdole2.tlb#OLE Automation
-Form=frmLCDDemo.frm
+Reference=*\G{00020430-0000-0000-C000-000000000046}#2.0#0#C:\WINDOWS\system32\stdole2.tlb#OLE Automation
 UserControl=MorphLCD.ctl
 Form=frmTimeDemo.frm
-Form=Form3.frm
-Form=Form4.frm
-IconForm="Form1"
-Startup="Form1"
+Startup="Form2"
 HelpFile=""
 Title="prjMorphLCD"
 ExeName32="prjMorphLCD.exe"
