@@ -43,10 +43,10 @@ Begin VB.Form frmMain
       intersegmentgapexp=   1
       numdigits       =   4
       numdigitsexp    =   2
-      segmentlitcolor =   65535
-      segmentlitcolorneg=   65535
       segmentheight   =   40
       segmentheightexp=   20
+      segmentlitcolor =   65535
+      segmentlitcolorneg=   65535
       segmentstyle    =   0
       segmentstyleexp =   0
       segmentwidth    =   12
@@ -149,7 +149,7 @@ Debug.Print KeyAscii
 End Sub
 
 Private Sub ctlTimer_Timer()
-ctlKeyWatcher.SetFocus
+'ctlKeyWatcher.SetFocus
     changeHeight
     'Debug.Print getTimeInMs
     Dim s As String
@@ -173,27 +173,31 @@ Private Sub Form_Load()
     
     
     
+    SetHotkey 1, "Ctrl,112", "Add"        '按 Ctrl+F1 激活指定程序
+    SetHotkey 2, 113, "Add"           ' 按 F2 激活指定程序
+    SetHotkey 3, "Ctrl+Alt,113", "Add"   ' 按 Ctrl+Alt+F2 激活指定程序
     
-    
-     Dim ret As Long
+     'Dim ret As Long
     '记录原来的window程序地址
-    preWinProc = GetWindowLong(Me.hwnd, GWL_WNDPROC)
+    'preWinProc = GetWindowLong(Me.hwnd, GWL_WNDPROC)
     '用自定义程序代替原来的window程序
-    ret = SetWindowLong(Me.hwnd, GWL_WNDPROC, AddressOf wndproc)
-    idHotKey = 1 'in the range ＆h0000 through ＆hBFFF
-    Modifiers = MOD_ALT '辅助键为Alt
-    uVirtKey1 = vbKeyQ '注册的热键为Alt+Q
+    'ret = SetWindowLong(Me.hwnd, GWL_WNDPROC, AddressOf wndproc)
+    'idHotKey = 1 'in the range ＆h0000 through ＆hBFFF
+    'Modifiers = MOD_ALT '辅助键为Alt
+    'uVirtKey1 = vbKeyQ '注册的热键为Alt+Q
     '注册热键
-    ret = RegisterHotKey(Me.hwnd, idHotKey, Modifiers, uVirtKey1)
-    If ret = 0 Then
-        MsgBox "注册热键失败,请使用其它热键!", vbCritical, "错误"
-    End If
+    'ret = RegisterHotKey(Me.hwnd, idHotKey, Modifiers, uVirtKey1)
+    'If ret = 0 Then
+    '    MsgBox "注册热键失败,请使用其它热键!", vbCritical, "错误"
+    'End If
 End Sub
 
 
-Private Sub Form_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
+Private Sub Form_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
     hidden False
 End Sub
+
+
 
 
 
