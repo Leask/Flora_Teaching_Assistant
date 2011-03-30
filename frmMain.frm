@@ -33,28 +33,28 @@ Begin VB.Form frmMain
       TabIndex        =   0
       Top             =   90
       Width           =   5685
-      _extentx        =   10028
-      _extenty        =   3096
-      burnincolor     =   0
-      burnincolorneg  =   0
-      interdigitgap   =   20
-      interdigitgapexp=   4
-      intersegmentgap =   2
-      intersegmentgapexp=   1
-      numdigits       =   4
-      numdigitsexp    =   2
-      segmentheight   =   40
-      segmentheightexp=   20
-      segmentlitcolor =   65535
-      segmentlitcolorneg=   65535
-      segmentstyle    =   0
-      segmentstyleexp =   0
-      segmentwidth    =   12
-      segmentwidthexp =   6
-      xoffset         =   10
-      xoffsetexp      =   305
-      yoffset         =   8
-      yoffsetexp      =   58
+      _ExtentX        =   10028
+      _ExtentY        =   3096
+      BurnInColor     =   0
+      BurnInColorNeg  =   0
+      InterDigitGap   =   20
+      InterDigitGapExp=   4
+      InterSegmentGap =   2
+      InterSegmentGapExp=   1
+      NumDigits       =   4
+      NumDigitsExp    =   2
+      SegmentHeight   =   40
+      SegmentHeightExp=   20
+      SegmentLitColor =   65535
+      SegmentLitColorNeg=   65535
+      SegmentStyle    =   0
+      SegmentStyleExp =   0
+      SegmentWidth    =   12
+      SegmentWidthExp =   6
+      XOffset         =   10
+      XOffsetExp      =   305
+      YOffset         =   8
+      YOffsetExp      =   58
    End
 End
 Attribute VB_Name = "frmMain"
@@ -71,7 +71,6 @@ Dim intTransparentPct As Integer
 Dim bolMoving As Boolean
 Dim timTo As Long
 Dim timFrom As Long
-Dim bolTimer As Boolean
 
 
 Private Sub initialization()
@@ -79,7 +78,6 @@ Private Sub initialization()
     intNormalTop = 0
     intNormalHeight = 2000
     intToTop = intHiddenTop
-    bolMoving = False
     
     Me.Left = 0
     Me.Top = intToTop
@@ -98,7 +96,8 @@ Private Function getTimeInMs() As Long
 End Function
 
 
-Private Sub countDown(intMin)
+Public Sub countDown(intMin)
+MsgBox intMin
     timFrom = getTimeInMs
     timTo = timFrom + intMin * 60 * 100
 End Sub
@@ -114,10 +113,6 @@ End Sub
 
 
 Private Sub hidden(bolFlag)
-    If bolMoving = True Then
-        Exit Sub
-    End If
-    bolMoving = True
     If bolFlag = True Then
         intToTop = intHiddenTop
     Else
@@ -137,14 +132,18 @@ Private Sub changeHeight()
 End Sub
 
 
+Private Sub ctlKeyWatcher_KeyDown(KeyCode As Integer, Shift As Integer)
+Debug.Print KeyCode
+End Sub
+
 Private Sub ctlKeyWatcher_KeyPress(KeyAscii As Integer)
-Debug.Print KeyAscii
-    Select Case KeyAscii
-        Case "8"
-            MsgBox 8
-        Case "13"
-            MsgBox 13
-    End Select
+'Debug.Print KeyAscii
+'    Select Case KeyAscii
+'        Case "8"
+'            MsgBox 8
+'        Case "13"
+'            MsgBox 13
+'    End Select
     
 End Sub
 
@@ -170,12 +169,15 @@ End Sub
 
 Private Sub Form_Load()
     initialization
-    
-    
-    
-    SetHotkey 1, "Ctrl,112", "Add"        '按 Ctrl+F1 激活指定程序
-    SetHotkey 2, 113, "Add"           ' 按 F2 激活指定程序
-    SetHotkey 3, "Ctrl+Alt,113", "Add"   ' 按 Ctrl+Alt+F2 激活指定程序
+    SetHotkey 1, "Alt,49", "Add"
+    SetHotkey 2, "Alt,50", "Add"
+    SetHotkey 3, "Alt,51", "Add"
+    SetHotkey 4, "Alt,52", "Add"
+    SetHotkey 5, "Alt,53", "Add"
+    SetHotkey 6, "Alt,54", "Add"
+    SetHotkey 7, "Alt,55", "Add"
+    SetHotkey 8, "Alt,56", "Add"
+    SetHotkey 9, "Alt,57", "Add"
     
      'Dim ret As Long
     '记录原来的window程序地址
@@ -203,8 +205,13 @@ End Sub
 
 
 Private Sub Form_QueryUnload(Cancel As Integer, UnloadMode As Integer)
-    Dim ret As Long
-    '取消Message的截取，使之送往原来的window程序
-    ret = SetWindowLong(Me.hwnd, GWL_WNDPROC, preWinProc)
-    Call UnregisterHotKey(Me.hwnd, uVirtKey1)
+    SetHotkey 1, "Alt,49", "Del"
+    SetHotkey 2, "Alt,50", "Del"
+    SetHotkey 3, "Alt,51", "Del"
+    SetHotkey 4, "Alt,52", "Del"
+    SetHotkey 5, "Alt,53", "Del"
+    SetHotkey 6, "Alt,54", "Del"
+    SetHotkey 7, "Alt,55", "Del"
+    SetHotkey 8, "Alt,56", "Del"
+    SetHotkey 9, "Alt,57", "Del"
 End Sub
