@@ -13,19 +13,10 @@ Begin VB.Form frmMain
    ScaleMode       =   3  'Pixel
    ScaleWidth      =   955
    ShowInTaskbar   =   0   'False
-   Begin VB.TextBox ctlKeyWatcher 
-      Appearance      =   0  'Flat
-      BorderStyle     =   0  'None
-      Height          =   420
-      Left            =   6390
-      TabIndex        =   1
-      Top             =   990
-      Width           =   375
-   End
    Begin VB.Timer ctlTimer 
       Interval        =   10
-      Left            =   540
-      Top             =   2700
+      Left            =   6480
+      Top             =   1440
    End
    Begin floTa.MorphDisplay ctlLcd 
       Height          =   1755
@@ -74,7 +65,7 @@ Dim timFrom As Long
 
 
 Private Sub initialization()
-    intHiddenTop = -1800
+    intHiddenTop = -2000
     intNormalTop = 0
     intNormalHeight = 2000
     intToTop = intHiddenTop
@@ -97,13 +88,17 @@ End Function
 
 
 Public Sub countDown(intMin)
-MsgBox intMin
+    If intMin = 0 Then
+        timFrom = 0
+        timTo = 0
+        hidden True
+        Exit Sub
+    Else
+        hidden False
+    End If
     timFrom = getTimeInMs
     timTo = timFrom + intMin * 60 * 100
 End Sub
-
-
-
 
 
 Private Sub setTransparent(intPct)
@@ -132,32 +127,18 @@ Private Sub changeHeight()
 End Sub
 
 
-Private Sub ctlKeyWatcher_KeyDown(KeyCode As Integer, Shift As Integer)
-Debug.Print KeyCode
-End Sub
-
-Private Sub ctlKeyWatcher_KeyPress(KeyAscii As Integer)
-'Debug.Print KeyAscii
-'    Select Case KeyAscii
-'        Case "8"
-'            MsgBox 8
-'        Case "13"
-'            MsgBox 13
-'    End Select
-    
-End Sub
-
 Private Sub ctlTimer_Timer()
-'ctlKeyWatcher.SetFocus
     changeHeight
-    'Debug.Print getTimeInMs
-    Dim s As String
-    s = Format(Now, "hh:mm:ss ampm")
-    If Left(s, 1) = "0" Then
-      s = Right(s, Len(s) - 1)
-      ctlLcd.Value = Left(s, 4) & "E+" & Mid(s, 6, 2)
-    Else
-      ctlLcd.Value = Left(s, 5) & "E+" & Mid(s, 7, 2)
+    If timTo Then
+        Dim lessTime As Long
+        Dim intMin As Integer
+        Dim intSec As Integer
+        Dim intMsc As Integer
+        lessTime = timTo - getTimeInMs
+        intMin = lessTime \ 6000
+        intSec = (lessTime - (intMin * 6000)) \ 100
+        intMsc = lessTime - (intMin * 6000) - (intSec * 100)
+        ctlLcd.Value = Format(intMin, "00") & ":" & Format(intSec, "00") & "E+" & Format(intMsc, "00")
     End If
 End Sub
 
@@ -169,6 +150,7 @@ End Sub
 
 Private Sub Form_Load()
     initialization
+    SetHotkey 0, "Alt,48", "Add"
     SetHotkey 1, "Alt,49", "Add"
     SetHotkey 2, "Alt,50", "Add"
     SetHotkey 3, "Alt,51", "Add"
@@ -178,33 +160,11 @@ Private Sub Form_Load()
     SetHotkey 7, "Alt,55", "Add"
     SetHotkey 8, "Alt,56", "Add"
     SetHotkey 9, "Alt,57", "Add"
-    
-     'Dim ret As Long
-    '记录原来的window程序地址
-    'preWinProc = GetWindowLong(Me.hwnd, GWL_WNDPROC)
-    '用自定义程序代替原来的window程序
-    'ret = SetWindowLong(Me.hwnd, GWL_WNDPROC, AddressOf wndproc)
-    'idHotKey = 1 'in the range ＆h0000 through ＆hBFFF
-    'Modifiers = MOD_ALT '辅助键为Alt
-    'uVirtKey1 = vbKeyQ '注册的热键为Alt+Q
-    '注册热键
-    'ret = RegisterHotKey(Me.hwnd, idHotKey, Modifiers, uVirtKey1)
-    'If ret = 0 Then
-    '    MsgBox "注册热键失败,请使用其它热键!", vbCritical, "错误"
-    'End If
 End Sub
-
-
-Private Sub Form_MouseMove(Button As Integer, Shift As Integer, x As Single, Y As Single)
-    hidden False
-End Sub
-
-
-
-
 
 
 Private Sub Form_QueryUnload(Cancel As Integer, UnloadMode As Integer)
+    SetHotkey 0, "Alt,40", "Del"
     SetHotkey 1, "Alt,49", "Del"
     SetHotkey 2, "Alt,50", "Del"
     SetHotkey 3, "Alt,51", "Del"

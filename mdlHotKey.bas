@@ -21,7 +21,9 @@ Function keyWndproc(ByVal hwnd As Long, ByVal Msg As Long, ByVal wParam As Long,
 
     If Msg = WM_HOTKEY Then
         Select Case wParam '注释：wParam 值就是 key_idHotKey
-            Case 1 '注释：激活 3 个热键后,3 个热键所对应的操作,大家在其他的程序中，只要修改此处就可以了
+            Case 0
+                frmMain.countDown 0
+            Case 1
                 frmMain.countDown 1
             Case 2
                 frmMain.countDown 2
