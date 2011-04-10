@@ -4,25 +4,25 @@ Begin VB.Form frmMain
    BackColor       =   &H00000000&
    BorderStyle     =   0  'None
    Caption         =   "Form1"
-   ClientHeight    =   3660
+   ClientHeight    =   2205
    ClientLeft      =   1395
    ClientTop       =   975
-   ClientWidth     =   14325
+   ClientWidth     =   5790
    LinkTopic       =   "Form1"
-   ScaleHeight     =   244
+   ScaleHeight     =   147
    ScaleMode       =   3  'Pixel
-   ScaleWidth      =   955
+   ScaleWidth      =   386
    ShowInTaskbar   =   0   'False
    Begin VB.Timer ctlTimer 
       Interval        =   10
-      Left            =   6480
-      Top             =   1440
+      Left            =   5220
+      Top             =   1305
    End
    Begin floTa.MorphDisplay ctlLcd 
       Height          =   1755
-      Left            =   495
+      Left            =   45
       TabIndex        =   0
-      Top             =   90
+      Top             =   45
       Width           =   5685
       _ExtentX        =   10028
       _ExtentY        =   3096
@@ -47,6 +47,36 @@ Begin VB.Form frmMain
       YOffset         =   8
       YOffsetExp      =   58
    End
+   Begin VB.Label ctlPctLabel 
+      Alignment       =   2  'Center
+      Appearance      =   0  'Flat
+      BackColor       =   &H0080FFFF&
+      Caption         =   "100%"
+      BeginProperty Font 
+         Name            =   "Arial"
+         Size            =   9.75
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      ForeColor       =   &H80000008&
+      Height          =   240
+      Left            =   90
+      TabIndex        =   1
+      Top             =   1890
+      Width           =   5595
+   End
+   Begin VB.Shape ctlPctShape 
+      BackColor       =   &H00404040&
+      BackStyle       =   1  'Opaque
+      BorderColor     =   &H00FFFFFF&
+      Height          =   330
+      Left            =   45
+      Top             =   1845
+      Width           =   5685
+   End
 End
 Attribute VB_Name = "frmMain"
 Attribute VB_GlobalNameSpace = False
@@ -58,25 +88,28 @@ Dim intHiddenTop As Integer
 Dim intNormalTop As Integer
 Dim intToTop As Integer
 Dim intNormalHeight As Integer
-Dim intTransparentPct As Integer
-Dim bolMoving As Boolean
+Dim intTsnMax As Integer
+Dim intTsnCur As Integer
+Dim intTsnTo As Integer
 Dim timTo As Long
 Dim timFrom As Long
+Dim timALl As Long
+Dim intPctWidth As Integer
 
 
 Private Sub initialization()
-    intHiddenTop = -2000
+    intNormalHeight = 2200
     intNormalTop = 0
-    intNormalHeight = 2000
+    intHiddenTop = intNormalTop - intNormalHeight
     intToTop = intHiddenTop
+    intPctWidth = 373
+    intTsnMax = 210
     
-    Me.Left = 0
+    Me.Left = (Screen.Width - Me.Width) / 2
     Me.Top = intToTop
-    Me.Width = Screen.Width
     Me.Height = intNormalHeight
     
-    setTransparent 210
-
+    setTransparent 0
 End Sub
 
 
@@ -97,11 +130,13 @@ Public Sub countDown(intMin)
         hidden False
     End If
     timFrom = getTimeInMs
-    timTo = timFrom + intMin * 60 * 100
+    timALl = intMin * 60 * 100
+    timTo = timFrom + timALl
 End Sub
 
 
 Private Sub setTransparent(intPct)
+    intTsnCur = intPct
     SetWindowLong hwnd, GWL_EXSTYLE, GetWindowLong(hwnd, GWL_EXSTYLE) Or WS_EX_LAYERED
     SetLayeredWindowAttributes hwnd, 0, intPct, LWA_ALPHA
 End Sub
@@ -110,8 +145,10 @@ End Sub
 Private Sub hidden(bolFlag)
     If bolFlag = True Then
         intToTop = intHiddenTop
+        intTsnTo = 0
     Else
         intToTop = intNormalTop
+        intTsnTo = intTsnMax
     End If
 End Sub
 
@@ -121,24 +158,42 @@ Private Sub changeHeight()
         Me.Top = Me.Top - 50
     ElseIf Me.Top < intToTop Then
         Me.Top = Me.Top + 50
-    ElseIf Me.Top = intToTop Then
-        bolMoving = False
+    End If
+End Sub
+
+
+Private Sub changeTransparent()
+    If intTsnCur > intTsnTo Then
+        setTransparent intTsnCur - 10
+    ElseIf intTsnCur < intTsnTo Then
+        setTransparent intTsnCur + 10
     End If
 End Sub
 
 
 Private Sub ctlTimer_Timer()
     changeHeight
+    changeTransparent
     If timTo Then
         Dim lessTime As Long
         Dim intMin As Integer
         Dim intSec As Integer
         Dim intMsc As Integer
+        Dim sngPct As Single
         lessTime = timTo - getTimeInMs
-        intMin = lessTime \ 6000
-        intSec = (lessTime - (intMin * 6000)) \ 100
-        intMsc = lessTime - (intMin * 6000) - (intSec * 100)
-        ctlLcd.Value = Format(intMin, "00") & ":" & Format(intSec, "00") & "E+" & Format(intMsc, "00")
+        If lessTime >= 0 Then
+            intMin = lessTime \ 6000
+            intSec = (lessTime - (intMin * 6000)) \ 100
+            intMsc = lessTime - (intMin * 6000) - (intSec * 100)
+            ctlLcd.Value = Format(intMin, "00") & ":" & Format(intSec, "00") & "E+" & Format(intMsc, "00")
+            sngPct = (getTimeInMs - timFrom) / timALl
+            ctlPctLabel.Width = 373 * sngPct
+            If ctlPctLabel.Width > 20 Then
+                ctlPctLabel.Caption = Int(sngPct * 100) & "%"
+            Else
+                ctlPctLabel.Caption = ""
+            End If
+        End If
     End If
 End Sub
 
