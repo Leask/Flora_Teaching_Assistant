@@ -101,6 +101,7 @@ Dim infFlashTimer As Integer
 
 
 Private Sub initialization()
+    If App.PrevInstance Then End
     intNormalHeight = 2200
     intNormalTop = 0
     intHiddenTop = intNormalTop - intNormalHeight
@@ -219,7 +220,7 @@ Private Sub ctlTimer_Timer()
             End If
         Else
             ctlLcd.Value = "00:00E+00"
-            ctlPctLabel.Caption = "101% "
+            ctlPctLabel.Caption = "100% "
             bolFlash = True
         End If
     End If
