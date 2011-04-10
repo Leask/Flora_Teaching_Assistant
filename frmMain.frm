@@ -152,12 +152,15 @@ End Sub
 Private Sub doFlash()
     If bolFlash Then
         lngFlashTimer = lngFlashTimer + 1
-        If infFlashTimer Mod 10 = 0 Then
+        If lngFlashTimer Mod 10 = 0 Then
             If ctlLcd.Visible Then
                 ctlLcd.Visible = False
             Else
                 ctlLcd.Visible = True
             End If
+        End If
+        If lngFlashTimer >= 1000 Then
+            countDown 0
         End If
     Else
         lngFlashTimer = 0
@@ -218,17 +221,15 @@ Private Sub ctlTimer_Timer()
             Else
                 ctlPctLabel.Caption = ""
             End If
+            If Abs(lessTime - 1000) <= 10 Then
+                PlaySound App.Path & "\rsCountDown.wav"
+            End If
         Else
             ctlLcd.Value = "00:00E+00"
             ctlPctLabel.Caption = "100% "
             bolFlash = True
         End If
     End If
-End Sub
-
-
-Private Sub Form_DblClick()
-    hidden True
 End Sub
 
 
