@@ -97,7 +97,7 @@ Dim timFrom As Long
 Dim timALl As Long
 Dim intPctWidth As Integer
 Dim bolFlash As Boolean
-Dim infFlashTimer As Integer
+Dim lngFlashTimer As Long
 
 
 Private Sub initialization()
@@ -151,7 +151,7 @@ End Sub
 
 Private Sub doFlash()
     If bolFlash Then
-        infFlashTimer = infFlashTimer + 1
+        lngFlashTimer = lngFlashTimer + 1
         If infFlashTimer Mod 10 = 0 Then
             If ctlLcd.Visible Then
                 ctlLcd.Visible = False
@@ -160,7 +160,7 @@ Private Sub doFlash()
             End If
         End If
     Else
-        infFlashTimer = 0
+        lngFlashTimer = 0
         ctlLcd.Visible = True
     End If
 End Sub
