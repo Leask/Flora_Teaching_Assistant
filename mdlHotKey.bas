@@ -48,6 +48,10 @@ Function keyWndproc(ByVal hwnd As Long, ByVal Msg As Long, ByVal wParam As Long,
                        "www.leaskh.com / i@leaskh.com / @leaskh", vbInformation, "About FloTa"
                 Unload frmMain
                 'End
+            Case 11
+                frmMain.pauseTimer
+            Case 12
+                frmMain.chHide
         End Select
     End If
     

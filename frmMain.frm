@@ -43,6 +43,7 @@ Begin VB.Form frmMain
       SegmentStyleExp =   0
       SegmentWidth    =   12
       SegmentWidthExp =   6
+      Value           =   "1126"
       XOffset         =   10
       XOffsetExp      =   305
       YOffset         =   8
@@ -92,9 +93,10 @@ Dim intNormalHeight As Integer
 Dim intTsnMax As Integer
 Dim intTsnCur As Integer
 Dim intTsnTo As Integer
-Dim timTo As Long
 Dim timFrom As Long
+Dim timTo As Long
 Dim timALl As Long
+Dim timPause As Long
 Dim intPctWidth As Integer
 Dim bolFlash As Boolean
 Dim lngFlashTimer As Long
@@ -108,6 +110,7 @@ Private Sub initialization()
     intToTop = intHiddenTop
     intPctWidth = 373
     intTsnMax = 210
+    timPause = 0
     
     Me.Left = (Screen.Width - Me.Width) / 2
     Me.Top = intToTop
@@ -136,6 +139,7 @@ Public Sub countDown(intMin)
         hidden False
     End If
     bolFlash = False
+    timPause = 0
     timFrom = getTimeInMs
     timALl = intMin * 60 * 100
     timTo = timFrom + timALl
@@ -198,11 +202,34 @@ Private Sub changeTransparent()
 End Sub
 
 
+Public Sub chHide()
+    If intToTop = intHiddenTop Then
+        hidden False
+    Else
+        hidden True
+    End If
+End Sub
+
+
+Public Sub pauseTimer()
+    If timPause Then
+        Dim lngTimPausePast As Long
+        lngTimPausePast = getTimeInMs - timPause
+        timFrom = timFrom + lngTimPausePast
+        timTo = timTo + lngTimPausePast
+        timPause = 0
+    Else
+        timPause = getTimeInMs
+    End If
+    hidden False
+End Sub
+
+
 Private Sub ctlTimer_Timer()
     changeHeight
     changeTransparent
     doFlash
-    If timTo Then
+    If timTo And timPause = 0 Then
         Dim lessTime As Long
         Dim lngMin As Long
         Dim lngSec As Long
@@ -246,11 +273,13 @@ Private Sub Form_Load()
     SetHotkey 8, "Alt,56", "Add"
     SetHotkey 9, "Alt,57", "Add"
     SetHotkey 10, "Alt,27", "Add"
+    SetHotkey 11, "Alt,80", "Add"
+    SetHotkey 12, "Alt,72", "Add"
 End Sub
 
 
 Private Sub Form_QueryUnload(Cancel As Integer, UnloadMode As Integer)
-    SetHotkey 0, "Alt,40", "Del"
+    SetHotkey 0, "Alt,48", "Del"
     SetHotkey 1, "Alt,49", "Del"
     SetHotkey 2, "Alt,50", "Del"
     SetHotkey 3, "Alt,51", "Del"
@@ -261,4 +290,6 @@ Private Sub Form_QueryUnload(Cancel As Integer, UnloadMode As Integer)
     SetHotkey 8, "Alt,56", "Del"
     SetHotkey 9, "Alt,57", "Del"
     SetHotkey 10, "Alt,27", "Del"
+    SetHotkey 11, "Alt,80", "Del"
+    SetHotkey 12, "Alt,72", "Del"
 End Sub
