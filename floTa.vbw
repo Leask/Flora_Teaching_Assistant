@@ -2,4 +2,5 @@ frmMain = 132, 132, 965, 520, , 22, 22, 855, 410, C
 MorphDisplay = 0, 0, 0, 0, C, 176, 176, 1009, 564, C
 mdlTransparent = 132, 132, 965, 520, 
 mdlTime = 110, 110, 943, 498, 
-mdlHotKey = 44, 44, 877, 432, 
+mdlHotKey = 44, 44, 877, 432, Z
+mdlWindowPos = 0, 0, 0, 0, C

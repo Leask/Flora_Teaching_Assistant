@@ -41,6 +41,12 @@ Function keyWndproc(ByVal hwnd As Long, ByVal Msg As Long, ByVal wParam As Long,
                 frmMain.countDown 8
             Case 9
                 frmMain.countDown 9
+            Case 10
+                MsgBox "Flora Teaching Assistant" & vbCrLf & "Version " & App.Major & "." & App.Minor & "  Build " & App.Revision & vbCrLf & vbCrLf & _
+                       "Designed & Developed by Leask Huang / »Æ Ë¼ÏÄ" & vbCrLf & _
+                       "www.leaskh.com / i@leaskh.com / @leaskh", vbInformation, "About FloTa"
+                Unload frmMain
+                'End
         End Select
     End If
     

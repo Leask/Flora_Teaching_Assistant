@@ -8,6 +8,7 @@ Begin VB.Form frmMain
    ClientLeft      =   1395
    ClientTop       =   975
    ClientWidth     =   5790
+   Icon            =   "frmMain.frx":0000
    LinkTopic       =   "Form1"
    ScaleHeight     =   147
    ScaleMode       =   3  'Pixel
@@ -18,10 +19,10 @@ Begin VB.Form frmMain
       Left            =   5220
       Top             =   1305
    End
-   Begin floTa.MorphDisplay ctlLcd 
+   Begin FloTa.MorphDisplay ctlLcd 
       Height          =   1755
       Left            =   45
-      TabIndex        =   0
+      TabIndex        =   1
       Top             =   45
       Width           =   5685
       _ExtentX        =   10028
@@ -64,7 +65,7 @@ Begin VB.Form frmMain
       ForeColor       =   &H80000008&
       Height          =   240
       Left            =   90
-      TabIndex        =   1
+      TabIndex        =   0
       Top             =   1890
       Width           =   5595
    End
@@ -111,7 +112,7 @@ Private Sub initialization()
     Me.Top = intToTop
     Me.Height = intNormalHeight
     
-    SetFormOnTop Me
+    setFormOnTop Me
     
     setTransparent 0
 End Sub
@@ -242,6 +243,7 @@ Private Sub Form_Load()
     SetHotkey 7, "Alt,55", "Add"
     SetHotkey 8, "Alt,56", "Add"
     SetHotkey 9, "Alt,57", "Add"
+    SetHotkey 10, "Alt,27", "Add"
 End Sub
 
 
@@ -256,4 +258,5 @@ Private Sub Form_QueryUnload(Cancel As Integer, UnloadMode As Integer)
     SetHotkey 7, "Alt,55", "Del"
     SetHotkey 8, "Alt,56", "Del"
     SetHotkey 9, "Alt,57", "Del"
+    SetHotkey 10, "Alt,27", "Del"
 End Sub
