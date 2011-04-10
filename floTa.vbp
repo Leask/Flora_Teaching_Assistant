@@ -5,6 +5,7 @@ UserControl=MorphLCD.ctl
 Module=mdlTransparent; mdlTransparent.bas
 Module=mdlTime; mdlTime.bas
 Module=mdlHotKey; mdlHotKey.bas
+Module=mdlWindowPos; mdlWindowPos.bas
 IconForm="frmMain"
 Startup="frmMain"
 HelpFile=""

@@ -48,7 +48,7 @@ Begin VB.Form frmMain
       YOffsetExp      =   58
    End
    Begin VB.Label ctlPctLabel 
-      Alignment       =   2  'Center
+      Alignment       =   1  'Right Justify
       Appearance      =   0  'Flat
       BackColor       =   &H0080FFFF&
       Caption         =   "100%"
@@ -95,6 +95,8 @@ Dim timTo As Long
 Dim timFrom As Long
 Dim timALl As Long
 Dim intPctWidth As Integer
+Dim bolFlash As Boolean
+Dim infFlashTimer As Integer
 
 
 Private Sub initialization()
@@ -108,6 +110,8 @@ Private Sub initialization()
     Me.Left = (Screen.Width - Me.Width) / 2
     Me.Top = intToTop
     Me.Height = intNormalHeight
+    
+    SetFormOnTop Me
     
     setTransparent 0
 End Sub
@@ -129,6 +133,7 @@ Public Sub countDown(intMin)
     Else
         hidden False
     End If
+    bolFlash = False
     timFrom = getTimeInMs
     timALl = intMin * 60 * 100
     timTo = timFrom + timALl
@@ -139,6 +144,23 @@ Private Sub setTransparent(intPct)
     intTsnCur = intPct
     SetWindowLong hwnd, GWL_EXSTYLE, GetWindowLong(hwnd, GWL_EXSTYLE) Or WS_EX_LAYERED
     SetLayeredWindowAttributes hwnd, 0, intPct, LWA_ALPHA
+End Sub
+
+
+Private Sub doFlash()
+    If bolFlash Then
+        infFlashTimer = infFlashTimer + 1
+        If infFlashTimer Mod 10 = 0 Then
+            If ctlLcd.Visible Then
+                ctlLcd.Visible = False
+            Else
+                ctlLcd.Visible = True
+            End If
+        End If
+    Else
+        infFlashTimer = 0
+        ctlLcd.Visible = True
+    End If
 End Sub
 
 
@@ -174,25 +196,30 @@ End Sub
 Private Sub ctlTimer_Timer()
     changeHeight
     changeTransparent
+    doFlash
     If timTo Then
         Dim lessTime As Long
-        Dim intMin As Integer
-        Dim intSec As Integer
-        Dim intMsc As Integer
+        Dim lngMin As Long
+        Dim lngSec As Long
+        Dim lngMsc As Long
         Dim sngPct As Single
         lessTime = timTo - getTimeInMs
         If lessTime >= 0 Then
-            intMin = lessTime \ 6000
-            intSec = (lessTime - (intMin * 6000)) \ 100
-            intMsc = lessTime - (intMin * 6000) - (intSec * 100)
-            ctlLcd.Value = Format(intMin, "00") & ":" & Format(intSec, "00") & "E+" & Format(intMsc, "00")
+            lngMin = lessTime \ 6000
+            lngSec = (lessTime - (lngMin * 6000)) \ 100
+            lngMsc = lessTime - (lngMin * 6000) - (lngSec * 100)
+            ctlLcd.Value = Format(lngMin, "00") & ":" & Format(lngSec, "00") & "E+" & Format(lngMsc, "00")
             sngPct = (getTimeInMs - timFrom) / timALl
             ctlPctLabel.Width = 373 * sngPct
-            If ctlPctLabel.Width > 20 Then
-                ctlPctLabel.Caption = Int(sngPct * 100) & "%"
+            If ctlPctLabel.Width > 25 Then
+                ctlPctLabel.Caption = Int(sngPct * 100) & "% "
             Else
                 ctlPctLabel.Caption = ""
             End If
+        Else
+            ctlLcd.Value = "00:00E+00"
+            ctlPctLabel.Caption = "101% "
+            bolFlash = True
         End If
     End If
 End Sub
