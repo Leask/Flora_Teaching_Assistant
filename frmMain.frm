@@ -4,50 +4,48 @@ Begin VB.Form frmMain
    BackColor       =   &H00000000&
    BorderStyle     =   0  'None
    Caption         =   "Form1"
-   ClientHeight    =   2205
+   ClientHeight    =   1410
    ClientLeft      =   1395
    ClientTop       =   975
-   ClientWidth     =   5790
+   ClientWidth     =   3180
    Icon            =   "frmMain.frx":0000
    LinkTopic       =   "Form1"
-   ScaleHeight     =   147
+   ScaleHeight     =   94
    ScaleMode       =   3  'Pixel
-   ScaleWidth      =   386
+   ScaleWidth      =   212
    ShowInTaskbar   =   0   'False
    Begin VB.Timer ctlTimer 
       Interval        =   10
-      Left            =   5220
-      Top             =   1305
+      Left            =   2655
+      Top             =   540
    End
    Begin FloTa.MorphDisplay ctlLcd 
-      Height          =   1755
+      Height          =   945
       Left            =   45
       TabIndex        =   1
       Top             =   45
-      Width           =   5685
-      _ExtentX        =   10028
-      _ExtentY        =   3096
+      Width           =   3075
+      _ExtentX        =   5424
+      _ExtentY        =   1667
       BurnInColor     =   0
       BurnInColorNeg  =   0
-      InterDigitGap   =   20
+      InterDigitGap   =   10
       InterDigitGapExp=   4
       InterSegmentGap =   2
       InterSegmentGapExp=   1
       NumDigits       =   4
       NumDigitsExp    =   2
-      SegmentHeight   =   40
-      SegmentHeightExp=   20
+      SegmentHeight   =   20
+      SegmentHeightExp=   10
       SegmentLitColor =   65535
       SegmentLitColorNeg=   65535
       SegmentStyle    =   0
       SegmentStyleExp =   0
-      SegmentWidth    =   12
-      SegmentWidthExp =   6
+      SegmentWidth    =   6
       Value           =   "1126"
-      XOffset         =   10
-      XOffsetExp      =   305
-      YOffset         =   8
-      YOffsetExp      =   58
+      XOffsetExp      =   165
+      YOffset         =   4
+      YOffsetExp      =   31
    End
    Begin VB.Label ctlPctLabel 
       Alignment       =   1  'Right Justify
@@ -67,8 +65,8 @@ Begin VB.Form frmMain
       Height          =   240
       Left            =   90
       TabIndex        =   0
-      Top             =   1890
-      Width           =   5595
+      Top             =   1080
+      Width           =   2985
    End
    Begin VB.Shape ctlPctShape 
       BackColor       =   &H00404040&
@@ -76,8 +74,8 @@ Begin VB.Form frmMain
       BorderColor     =   &H00FFFFFF&
       Height          =   330
       Left            =   45
-      Top             =   1845
-      Width           =   5685
+      Top             =   1035
+      Width           =   3075
    End
 End
 Attribute VB_Name = "frmMain"
@@ -104,7 +102,7 @@ Dim lngFlashTimer As Long
 
 Private Sub initialization()
     If App.PrevInstance Then End
-    intNormalHeight = 2200
+    intNormalHeight = 1400
     intNormalTop = 0
     intHiddenTop = intNormalTop - intNormalHeight
     intToTop = intHiddenTop
