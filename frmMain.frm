@@ -106,7 +106,7 @@ Private Sub initialization()
     intNormalTop = 0
     intHiddenTop = intNormalTop - intNormalHeight
     intToTop = intHiddenTop
-    intPctWidth = 373
+    intPctWidth = 199
     intTsnMax = 210
     timPause = 0
     
@@ -240,13 +240,13 @@ Private Sub ctlTimer_Timer()
             lngMsc = lessTime - (lngMin * 6000) - (lngSec * 100)
             ctlLcd.Value = Format(lngMin, "00") & ":" & Format(lngSec, "00") & "E+" & Format(lngMsc, "00")
             sngPct = (getTimeInMs - timFrom) / timALl
-            ctlPctLabel.Width = 373 * sngPct
+            ctlPctLabel.Width = intPctWidth * sngPct
             If ctlPctLabel.Width > 25 Then
                 ctlPctLabel.Caption = Int(sngPct * 100) & "% "
             Else
                 ctlPctLabel.Caption = ""
             End If
-            If Abs(lessTime - 1000) <= 10 Then
+            If Abs(lessTime - 500) <= 10 Then
                 PlaySound App.Path & "\rsCountDown.wav"
             End If
         Else
