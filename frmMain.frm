@@ -246,7 +246,7 @@ Private Sub ctlTimer_Timer()
             Else
                 ctlPctLabel.Caption = ""
             End If
-            If Abs(lessTime - 500) <= 10 Then
+            If Abs(lessTime - 300) <= 10 Then
                 PlaySound App.Path & "\rsCountDown.wav"
             End If
         Else
