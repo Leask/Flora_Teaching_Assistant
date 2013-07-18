@@ -1,4 +1,4 @@
-Flora_Teaching_Assistant
+Flora Teaching Assistant
 ========================
 
 A teaching assistant software, made for @syxnx
